@@ -1,16 +1,18 @@
-import Head from 'next/head'
+// next components
 import Image from 'next/image'
-import styles from '@/styles/Home.module.sass'
+// styles
+import styles from '../styles/Home.module.sass'
+// bibs
 import axios from 'axios'
+// components
+import Card from '@/components/card/Card'
+// types
+import { IPokemon } from '@/types/types'
 
 interface IApiResponse {
-  results: IPokemonResponse[]
+  results: IPokemon[]
 }
-interface IPokemonResponse {
-  name: string
-  url: string
-  id?: number
-}
+
 export async function getStaticProps() {
   const maxPokemons = 251
   const api = 'https://pokeapi.co/api/v2/pokemon'
@@ -26,16 +28,26 @@ export async function getStaticProps() {
     }
   }
 }
-export default function Home({ pokemons }: { pokemons: IPokemonResponse[] }) {
+export default function Home({ pokemons }: { pokemons: IPokemon[] }) {
   return (
-    <div>
-      <h1>PokeNext</h1>
-      <ul>
+    <>
+      <div className={styles.titleContainer}>
+        <h1>
+          Poke<span>Next</span>
+        </h1>
+        <Image
+          src='/images/pokeball.png'
+          width={50}
+          height={50}
+          alt='PokeNext'
+        />
+      </div>
+      <div className={styles.pokemonContainer}>
         {pokemons.map(pokemon => (
-          <li key={pokemon.id}>{pokemon.name}</li>
+          <Card key={pokemon.id} pokemon={pokemon} />
         ))}
-      </ul>
-    </div>
+      </div>
+    </>
   )
 }
 
