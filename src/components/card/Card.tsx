@@ -3,10 +3,10 @@ import Image from 'next/image'
 // styles
 import styles from './Card.module.sass'
 // types
-import { IPokemon } from '@/types/types'
+import { IPokemonWithId } from '@/types/types'
 import Link from 'next/link'
 
-export default function Card({ pokemon }: { pokemon: IPokemon }) {
+export default function Card({ pokemon }: { pokemon: IPokemonWithId }) {
   return (
     <div className={styles.card}>
       <Image

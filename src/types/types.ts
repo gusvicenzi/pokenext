@@ -1,5 +1,8 @@
-export interface IPokemon {
+interface IPokemon {
   name: string
   url: string
-  id?: number
+}
+
+export interface IPokemonWithId extends IPokemon {
+  id: number
 }
