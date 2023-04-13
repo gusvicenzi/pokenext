@@ -1,5 +1,6 @@
 // next components
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 // types
 import { getPokemons } from '@/services/getPokemons'
 import { IPokemonWithId } from '@/types/types'
@@ -26,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   })
   return {
     paths,
-    fallback: false
+    fallback: true // false to only show prerendered pages
   }
 }
 
@@ -42,6 +43,13 @@ export const getStaticProps: GetStaticProps = async context => {
 }
 
 export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
+  // useRouter to load unrendered pages
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <div>Carregando...</div>
+  }
+
   return (
     <div className={styles.pokemonContainer}>
       <h1>{pokemon.name}</h1>
