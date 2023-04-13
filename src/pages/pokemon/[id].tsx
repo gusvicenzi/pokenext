@@ -1,4 +1,5 @@
 // next components
+import Image from 'next/image'
 // types
 import { getPokemons } from '@/services/getPokemons'
 import { IPokemonWithId } from '@/types/types'
@@ -6,6 +7,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 // bibs
 import axios from 'axios'
+// styles
+import styles from './Pokemon.module.sass'
 
 interface IParams extends ParsedUrlQuery {
   id: string
@@ -39,5 +42,41 @@ export const getStaticProps: GetStaticProps = async context => {
 }
 
 export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
-  return <p>{pokemon.name}</p>
+  return (
+    <div className={styles.pokemonContainer}>
+      <h1>{pokemon.name}</h1>
+      <Image
+        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
+        width={200}
+        height={200}
+        alt={pokemon.name}
+      />
+      <div>
+        <h3>Número:</h3>
+        <p>#{pokemon.id}</p>
+      </div>
+      <div>
+        <h3>Tipo:</h3>
+        <div className={styles.typesContainer}>
+          {pokemon.types.map((item, index) => (
+            <span
+              key={index}
+              className={`${styles.type} ${styles['type_' + item.type.name]}`}>
+              {item.type.name}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className={styles.dataContainer}>
+        <div className={styles.dataHeight}>
+          <h4>Altura:</h4>
+          <p>{pokemon.height * 10} cm</p>
+        </div>
+        <div className={styles.dataWeight}>
+          <h4>Massa:</h4>
+          <p>{pokemon.weight / 10} kg</p>
+        </div>
+      </div>
+    </div>
+  )
 }
