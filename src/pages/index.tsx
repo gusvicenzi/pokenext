@@ -26,7 +26,7 @@ export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
     visible: {
       transition: {
         delayChildren: 0,
-        staggerChildren: 0.03
+        staggerChildren: 0.01
       }
     }
   }
