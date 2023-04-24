@@ -20,15 +20,11 @@ export default function Card({
     <motion.div variants={variants} className={styles.card}>
       <motion.h3
         layoutId={`pokemonName${pokemon.name}`}
-        transition={{ duration: 0.5 }}>
+        transition={{ duration: 0.5, ease: 'easeInOut' }}>
         {pokemon.name}
       </motion.h3>
       <PokemonImage pokemon={pokemon} height={120} width={120} />
-      <motion.p
-        layoutId={`pokemonId${pokemon.name}`}
-        transition={{ duration: 0.5 }}>
-        #{pokemon.id}
-      </motion.p>
+      <p>#{pokemon.id}</p>
 
       <Link className={styles.btn} href={`/pokemon/${pokemon.id}`}>
         Detalhes

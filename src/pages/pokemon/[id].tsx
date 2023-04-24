@@ -55,7 +55,7 @@ export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
   return (
     <div className={styles.pokemonContainer}>
       <motion.h1
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.7, ease: 'easeInOut' }}
         layoutId={`pokemonName${pokemon.name}`}>
         {pokemon.name}
       </motion.h1>

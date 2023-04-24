@@ -12,7 +12,7 @@ export const PokemonImage = ({
 }) => {
   return (
     <motion.img
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
