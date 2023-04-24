@@ -9,6 +9,8 @@ import Card from '@/components/card/Card'
 // types
 import { IPokemonWithId } from '@/types/types'
 import { getPokemons } from '@/services/getPokemons'
+// animations
+import { motion } from 'framer-motion'
 
 export async function getStaticProps() {
   const data = await getPokemons()
@@ -20,6 +22,24 @@ export async function getStaticProps() {
   }
 }
 export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
+  const variants = {
+    visible: {
+      transition: {
+        delayChildren: 0,
+        staggerChildren: 0.03
+      }
+    }
+  }
+  const itemVariants = {
+    hidden: {
+      y: 20,
+      opacity: 0
+    },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  }
   return (
     <>
       <div className={styles.titleContainer}>
@@ -33,11 +53,15 @@ export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
           alt='PokeNext'
         />
       </div>
-      <div className={styles.pokemonContainer}>
+      <motion.div
+        initial='hidden'
+        animate='visible'
+        variants={variants}
+        className={styles.pokemonContainer}>
         {pokemons.map(pokemon => (
-          <Card key={pokemon.id} pokemon={pokemon} />
+          <Card key={pokemon.id} pokemon={pokemon} variants={itemVariants} />
         ))}
-      </div>
+      </motion.div>
     </>
   )
 }

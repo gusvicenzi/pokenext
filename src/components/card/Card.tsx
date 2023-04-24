@@ -5,21 +5,34 @@ import styles from './Card.module.sass'
 // types
 import { IPokemonWithId } from '@/types/types'
 import Link from 'next/link'
+import { PokemonImage } from '../PokemonImage'
+// animations
+import { motion } from 'framer-motion'
 
-export default function Card({ pokemon }: { pokemon: IPokemonWithId }) {
+export default function Card({
+  pokemon,
+  variants
+}: {
+  pokemon: IPokemonWithId
+  variants: any
+}) {
   return (
-    <div className={styles.card}>
-      <Image
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-        width={120}
-        height={120}
-        alt={pokemon.name}
-      />
-      <p>#{pokemon.id}</p>
-      <h3>{pokemon.name}</h3>
+    <motion.div variants={variants} className={styles.card}>
+      <motion.h3
+        layoutId={`pokemonName${pokemon.name}`}
+        transition={{ duration: 0.5 }}>
+        {pokemon.name}
+      </motion.h3>
+      <PokemonImage pokemon={pokemon} height={120} width={120} />
+      <motion.p
+        layoutId={`pokemonId${pokemon.name}`}
+        transition={{ duration: 0.5 }}>
+        #{pokemon.id}
+      </motion.p>
+
       <Link className={styles.btn} href={`/pokemon/${pokemon.id}`}>
         Detalhes
       </Link>
-    </div>
+    </motion.div>
   )
 }

@@ -10,7 +10,9 @@ import { ParsedUrlQuery } from 'querystring'
 import axios from 'axios'
 // styles
 import styles from './Pokemon.module.sass'
-
+import { PokemonImage } from '@/components/PokemonImage'
+// animations
+import { motion } from 'framer-motion'
 interface IParams extends ParsedUrlQuery {
   id: string
 }
@@ -52,18 +54,23 @@ export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
 
   return (
     <div className={styles.pokemonContainer}>
-      <h1>{pokemon.name}</h1>
-      <Image
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-        width={200}
-        height={200}
-        alt={pokemon.name}
-      />
-      <div>
+      <motion.h1
+        transition={{ duration: 0.7 }}
+        layoutId={`pokemonName${pokemon.name}`}>
+        {pokemon.name}
+      </motion.h1>
+      <PokemonImage pokemon={pokemon} height={200} width={200} />
+      <motion.div
+        transition={{ duration: 0.5, delay: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}>
         <h3>Número:</h3>
         <p>#{pokemon.id}</p>
-      </div>
-      <div>
+      </motion.div>
+      <motion.div
+        transition={{ duration: 0.5, delay: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}>
         <h3>Tipo:</h3>
         <div className={styles.typesContainer}>
           {pokemon.types.map((item, index) => (
@@ -74,8 +81,12 @@ export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
             </span>
           ))}
         </div>
-      </div>
-      <div className={styles.dataContainer}>
+      </motion.div>
+      <motion.div
+        transition={{ duration: 0.5, delay: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className={styles.dataContainer}>
         <div className={styles.dataHeight}>
           <h4>Altura:</h4>
           <p>{pokemon.height * 10} cm</p>
@@ -84,7 +95,7 @@ export default function Pokemon({ pokemon }: { pokemon: IPokemonWithId }) {
           <h4>Massa:</h4>
           <p>{pokemon.weight / 10} kg</p>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
