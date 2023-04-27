@@ -18,9 +18,8 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await getPokemons()
-
-  const paths = data.results.map((pokemon, index) => {
+  const data = await getPokemons(100)
+  const paths = data.map((pokemon, index) => {
     return {
       params: {
         id: pokemon.id.toString()

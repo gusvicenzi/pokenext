@@ -11,17 +11,27 @@ import { IPokemonWithId } from '@/types/types'
 import { getPokemons } from '@/services/getPokemons'
 // animations
 import { motion } from 'framer-motion'
+import { useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 export async function getStaticProps() {
-  const data = await getPokemons()
+  const data = await getPokemons(100)
 
   return {
     props: {
-      pokemons: data.results
+      pokemons: data
     }
   }
 }
 export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
+  const [pokes, setPokes] = useState(pokemons)
+
+  const getMorePokemons = async () => {
+    const newPokes = await getPokemons(12, pokes.length)
+
+    setPokes(pokes => [...pokes, ...newPokes])
+  }
+
   const variants = {
     visible: {
       transition: {
@@ -41,7 +51,12 @@ export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
     }
   }
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
       <div className={styles.titleContainer}>
         <h1>
           Poke<span>Next</span>
@@ -53,7 +68,7 @@ export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
           alt='PokeNext'
         />
       </div>
-      <motion.div
+      {/* <motion.div
         initial='hidden'
         animate='visible'
         variants={variants}
@@ -61,8 +76,19 @@ export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
         {pokemons.map(pokemon => (
           <Card key={pokemon.id} pokemon={pokemon} variants={itemVariants} />
         ))}
-      </motion.div>
-    </>
+      </motion.div> */}
+      <InfiniteScroll
+        dataLength={pokes.length}
+        next={getMorePokemons}
+        hasMore={true}
+        loader={<h3> Loading...</h3>}
+        endMessage={<h4>Nothing more to show</h4>}
+        className={styles.pokemonContainer}>
+        {pokes.map(poke => (
+          <Card key={poke.id} pokemon={poke} variants={itemVariants} />
+        ))}
+      </InfiniteScroll>
+    </div>
   )
 }
 
