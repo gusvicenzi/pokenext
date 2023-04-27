@@ -13,6 +13,7 @@ import { getPokemons } from '@/services/getPokemons'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { usePokemonContext } from '../hooks/usePokemonContext'
 
 export async function getStaticProps() {
   const data = await getPokemons(100)
@@ -24,13 +25,13 @@ export async function getStaticProps() {
   }
 }
 export default function Home({ pokemons }: { pokemons: IPokemonWithId[] }) {
-  const [pokes, setPokes] = useState(pokemons)
+  const { pokemons: pokes, getMorePokemons } = usePokemonContext()
 
-  const getMorePokemons = async () => {
-    const newPokes = await getPokemons(12, pokes.length)
+  // const getMorePokemons = async () => {
+  //   const newPokes = await getPokemons(12, pokes.length)
 
-    setPokes(pokes => [...pokes, ...newPokes])
-  }
+  //   setPokes(pokes => [...pokes, ...newPokes])
+  // }
 
   const variants = {
     visible: {
