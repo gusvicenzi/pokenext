@@ -14,6 +14,10 @@ export default function Layout({ children }: Props) {
     <>
       <Head>
         <link rel='shortcut icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content='PokeNext is a pokedex made with Next.js'
+        />
         <title>PokeNext</title>
       </Head>
       <Navbar />
